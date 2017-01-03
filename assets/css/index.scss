@@ -1,0 +1,21 @@
+@import '~foundation-sites/scss/foundation';
+@import '~@blueprintjs/core/dist/blueprint.css';
+@import "~highlight.js/styles/atom-one-dark.css";
+
+@include foundation-global-styles;
+
+$blue_light: #576071;
+$blue_medium: #434a58;
+$blue_dark: #393f4b;
+$blue_extra_dark: #23272e;
+$white: #FFF;
+$offwhite: #AAA;
+$red: #FF7373;
+
+$primary: $white;
+$secondary: $offwhite;
+$background: $blue_medium;
+
+@import 'react-tags';
+@import 'app';
+@import 'site';

@@ -1,0 +1,20 @@
+<div class='passwords edit'>
+  <main>
+    <h1>Quasar</h1>
+
+    <p class="alert alert-danger" role="alert"><%= get_flash(@conn, :error) %></p>
+    <p class="alert alert-success" role="alert"><%= get_flash(@conn, :info) %></p>
+
+    <%= form_for @changeset, password_path(@conn, :update), fn f -> %>
+      <p>Change Password</p>
+      <input type="hidden" name="token" value="<%= @conn.params["token"] %>">
+      <div class="field">
+        <%= password_input f, :password, placeholder: "Password", required: true, class: "pt-input"  %>
+      </div>
+      <div class="field">
+        <%= password_input f, :password_confirmation, placeholder: "Confirm Password", required: true, class: "pt-input"  %>
+      </div>
+      <button class='pt-button' type="submit">Change Password</button>
+    <% end %>
+  </main>
+</div>

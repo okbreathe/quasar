@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <%= if transient_storage() do %>
+      <meta id="seeds" name="seeds" content="<%= static_path(@conn, "/assets/seeds.json") %>">
+    <% end %>
+    <title>Quasar</title>
+    <link rel="icon" href="<%= static_path(@conn, "/favicon.ico") %>" >
+    <%= if prod_mode() do %>
+      <link rel="stylesheet" href="<%= static_path(@conn, "/css/index.bundle.css") %>" />
+    <% end %>
+    <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro|Source+Sans+Pro|Ubuntu|Ubuntu+Mono" rel="stylesheet">
+    <%= if Guardian.Plug.current_token(@conn) do %>
+      <%= tag :meta, name: "token", id: "token", content: Guardian.Plug.current_token(@conn)  %>
+      <meta id="csrf" name="csrf" content="<%= get_csrf_token() %>">
+    <% end %>
+  </head>
+
+  <body>
+    <%= render @view_module, @view_template, assigns %>
+    <%= if dev_mode() do %>
+      <script src='http://localhost:4001/js/index.bundle.js'></script>
+    <% else %>
+      <script src="<%= static_path(@conn, "/js/index.bundle.js") %>"></script>
+    <% end %>
+  </body>
+</html>

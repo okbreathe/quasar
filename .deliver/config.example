@@ -1,0 +1,64 @@
+#!/usr/bin/env bash
+
+APP="quasar"
+
+BUILD_HOST="example.com"
+BUILD_USER="my_user"
+BUILD_AT="/tmp/edeliver/quasar/builds"
+
+STAGING_HOSTS="example.com"
+STAGING_USER="my_user"
+DELIVER_TO="/path/to/quasar"
+DEPLOY_TO=$DELIVER_TO
+
+LOCAL_PROD_SECRET_PATH="/home/builder/path/to/prod.secret.exs "
+REMOTE_PROD_SECRET_PATH="$DELIVER_TO/shared/prod.secret.exs"
+
+AUTO_VERSION=git-branch+git-revision
+
+# Copy prod.secret.exs to our build path
+pre_erlang_get_and_update_deps() {
+  local _prod_secret_path=$REMOTE_PROD_SECRET_PATH
+  if [ "$TARGET_MIX_ENV" = "prod" ]; then
+    status "Copying config"
+    scp $LOCAL_PROD_SECRET_PATH $BUILD_USER@$BUILD_HOST:$BUILD_AT/config/prod.secret.exs
+  fi
+}
+
+# Symlink uploads directory and bundle our assets
+pre_erlang_clean_compile() {
+  status "Symlinking uploads ($DEPLOY_TO)"
+  __sync_remote "
+    ln -sfn '$DEPLOY_TO/shared/uploads' '$DEPLOY_TO/quasar/uploads'
+  "
+
+  status "Preparing assets with phoenix.digest"
+  __sync_remote "
+    # runs the commands on the build host
+    [ -f ~/.profile ] && source ~/.profile # load profile (optional)
+
+    # fail if any command fails (recommended)
+    set -e
+
+    # enter the build directory on the build host (required)
+    cd '$BUILD_AT'
+
+    mkdir -p priv/static
+
+    cd assets
+
+    # Installing npm dependencies
+    yarn install
+
+    # Build bundle
+    NODE_ENV=prod yarn run deploy
+
+    cd ../
+
+    # Otherwise phoenix.digest fails
+    APP='$APP' MIX_ENV='$TARGET_MIX_ENV' $MIX_CMD compile $SILENCE
+
+    # Digest assets
+    APP='$APP' MIX_ENV='$TARGET_MIX_ENV' $MIX_CMD phoenix.digest $SILENCE
+  "
+}

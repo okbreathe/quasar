@@ -1,0 +1,31 @@
+  <div class='registrations new'>
+    <main>
+      <h1>Quasar</h1>
+      <h4>New Account</h4>
+      <p class="alert alert-danger" role="alert"><%= get_flash(@conn, :error) %></p>
+      <%= form_for @changeset, registration_path(@conn, :create), fn f -> %>
+        <input type="hidden" name="_csrf_token" value="<%= get_csrf_token() %>">
+        <div class="field">
+          <%= text_input f, :name, placeholder: "Name", class: "pt-input" %>
+          <%= error_tag f, :name %>
+        </div>
+        <div class="field">
+          <%= text_input f, :email, placeholder: "Email", class: "pt-input" %>
+          <%= error_tag f, :email %>
+        </div>
+        <div class="field">
+          <%= password_input f, :password, placeholder: "Password", class: "pt-input" %>
+          <%= error_tag f, :password %>
+        </div>
+        <div class="field">
+          <%= password_input f, :password_confirmation, placeholder: "Password Confirmation", class: "pt-input" %>
+          <%= error_tag f, :password_confirmation %>
+        </div>
+        <button class='pt-button' type="submit">Sign Up</button>
+        <br/>
+        <%= link "Back", to: "/" %>
+      <% end %>
+    </main>
+  </div>
+
+

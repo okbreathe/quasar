@@ -1,0 +1,19 @@
+<div class='passwords new'>
+  <main>
+    <h1>Quasar</h1>
+
+    <p class="alert alert-danger" role="alert"><%= get_flash(@conn, :error) %></p>
+    <p class="alert alert-success" role="alert"><%= get_flash(@conn, :info) %></p>
+
+    <%= form_for @conn, password_path(@conn, :create), [as: :user], fn f -> %>
+      <input type="hidden" name="_csrf_token" value="<%= get_csrf_token() %>">
+      <p>Enter your email address and we <br/>will send you a link to reset your password.</p>
+      <div class="field">
+        <%= email_input f, :email, placeholder: "Email", required: true, class: "pt-input" %>
+      </div>
+      <button class='pt-button' type="submit">Send Password Reset Email</button>
+    <%= end %>
+  </main>
+</div>
+
+
