@@ -2,16 +2,16 @@
 
 APP="quasar"
 
-BUILD_HOST="example.com"
+BUILD_HOST="my-domain.com"
 BUILD_USER="my_user"
 BUILD_AT="/tmp/edeliver/quasar/builds"
 
 STAGING_HOSTS="example.com"
 STAGING_USER="my_user"
-DELIVER_TO="/path/to/quasar"
+DELIVER_TO="/path/to/serve/quasar"
 DEPLOY_TO=$DELIVER_TO
 
-LOCAL_PROD_SECRET_PATH="/home/builder/path/to/prod.secret.exs "
+LOCAL_PROD_SECRET_PATH="/path/to/prod.secret.exs "
 REMOTE_PROD_SECRET_PATH="$DELIVER_TO/shared/prod.secret.exs"
 
 AUTO_VERSION=git-branch+git-revision
