@@ -53,7 +53,7 @@ export async function transientStorage(name, req) {
 
 export function clearTransientStorage(){
   localStorage.removeItem("seeded")
-  return db.delete().then(() => window.location.pathname = "app")
+  return db.delete().then(() => window.location.pathname = [process.env.BASENAME, "/app"].join(""))
 }
 
 const Upload = {
