@@ -199,7 +199,7 @@ const ConnectedApp = connect(
 
 const Root = (props) => {
   return (
-   <Provider store={props.store}>
+    <Provider store={props.store}>
       <Router history={props.history}>
         <Route path="/app" component={ConnectedApp}>
           <Route path="/app/tags/(:tag_id)" component={ConnectedApp} >

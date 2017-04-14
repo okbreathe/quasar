@@ -4,6 +4,7 @@ const ExtractTextPlugin = require("extract-text-webpack-plugin")
 
 const env        = process.env.MIX_ENV || process.env.NODE_ENV || 'dev'
 const TRANSIENT  = !!process.env.TRANSIENT
+const BASENAME   = process.env.BASENAME || ""
 const prod       = env === 'production' || env === 'prod'
 const publicPath = process.env.PUBLIC_PATH || (prod ? '/' : 'http://localhost:4001/')
 const entry      = [ 'babel-polyfill','./js/index.js' ]
@@ -20,6 +21,7 @@ if (prod) {
     new webpack.DefinePlugin({
       'process.env': {
         NODE_ENV: JSON.stringify('production'),
+        BASENAME: JSON.stringify(BASENAME),
         TRANSIENT: TRANSIENT
       }
     }),
@@ -49,6 +51,7 @@ if (prod) {
     new webpack.DefinePlugin({
       'process.env': {
         NODE_ENV: JSON.stringify('development'),
+        BASENAME: JSON.stringify(BASENAME),
         TRANSIENT: TRANSIENT
       }
     }),
