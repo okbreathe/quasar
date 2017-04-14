@@ -33,7 +33,7 @@ That's it!
 
 * Make sure you have the dependencies installed ( Postgres 9.2+, NodeJS, [Yarn](https://yarnpkg.com/en/), [Elixir](elixir-lang.org) )
 * Inside the project, install Elixir dependencies with `mix deps.get`
-* Install JavaScript dependencies with `yarn install`
+* Install JavaScript dependencies with `cd assets && yarn install && cd ../`
 * Create your database with `mix ecto.create`
 * Migrate your database with `mix ecto.migrate` or seed the database with test data via `mix ecto.setup`
 * Start Phoenix endpoint with `mix phx.server`
