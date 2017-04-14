@@ -85,7 +85,7 @@ export class Editor extends React.Component {
       }
     })
 
-    stylesheet.sheet.addRule("#editor", rules.join(" "), 0)
+    stylesheet.sheet.insertRule(`#editor { ${rules.join(" ")} }`, 0)
   }
 
   stylesheet() {
