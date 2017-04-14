@@ -1,6 +1,6 @@
 # Quasar
 
-Quasar is a [React](https://facebook.github.io/react/) powered Markdown wiki talkingto a [Phoenix](http://www.phoenixframework.org/)  backend.
+Quasar is a [React](https://facebook.github.io/react/) powered Markdown wiki consuming a [Phoenix](http://www.phoenixframework.org/)-based API.
 
 ## Features
 
@@ -48,12 +48,6 @@ For changes in development mode, you can edit `config/dev.exs`. In production yo
 # If true users can create new accounts through the web interface
 config :quasar,
   allow_registration: false
-
-# If true Quasar stores everything in IndexedDb. Note that currently this is
-# purely for the demo app and nothing will be actually persisted. This may change in the
-# future to allow persistence via various providers e.g. DropBox
-config :quasar,
-  transient_storage: false
 
 # Store files on disk
 config :arc,
