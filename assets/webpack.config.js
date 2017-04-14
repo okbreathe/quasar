@@ -5,7 +5,7 @@ const ExtractTextPlugin = require("extract-text-webpack-plugin")
 const env        = process.env.MIX_ENV || process.env.NODE_ENV || 'dev'
 const TRANSIENT  = !!process.env.TRANSIENT
 const prod       = env === 'production' || env === 'prod'
-const publicPath = prod ? '/' : 'http://localhost:4001/'
+const publicPath = process.env.PUBLIC_PATH || (prod ? '/' : 'http://localhost:4001/')
 const entry      = [ 'babel-polyfill','./js/index.js' ]
 const hot        = 'webpack-hot-middleware/client?path=' + publicPath + '__webpack_hmr'
 const cssLoaders = [ 'css-loader', 'sass-loader', 'postcss-loader' ]
