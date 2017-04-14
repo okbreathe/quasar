@@ -7,7 +7,7 @@ defmodule Quasar.Wiki do
   alias Ecto.Multi
   alias PaperTrail.Version
   alias Quasar.Repo
-  alias Quasar.Wiki.{Page, Tag, Upload}
+  alias Quasar.Wiki.{Page, Upload}
 
   @hashids Hashids.new(salt: Application.get_env(:quasar, :upload_salt))
 

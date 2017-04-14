@@ -4,7 +4,7 @@ defmodule Mix.Tasks.Quasar.Static do
   use Phoenix.ConnTest
 
   alias Quasar.Accounts.User
-  alias Quasar.Web.{SiteView, LayoutView}
+  alias Quasar.Web.{Endpoint, LayoutView, SiteView}
 
   @shortdoc "Create a stand-alone front-end only version of Quasar"
   def run(_args) do
@@ -19,8 +19,8 @@ defmodule Mix.Tasks.Quasar.Static do
     Application.put_env(:quasar, :environment, :prod)
     conn = build_conn()
            |> assign(:current_user, %User{})
-           |> put_private(:phoenix_endpoint, Quasar.Web.Endpoint)
-    html = Phoenix.View.render_to_string(Quasar.Web.SiteView, "app.html", conn: conn, layout: {LayoutView, "app.html"})
+           |> put_private(:phoenix_endpoint, Endpoint)
+    html = Phoenix.View.render_to_string(SiteView, "app.html", conn: conn, layout: {LayoutView, "app.html"})
 
 		File.open!("./_build/static/index.html", [:write])
 		|> IO.binwrite(html)
