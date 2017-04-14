@@ -8,14 +8,16 @@ defmodule Mix.Tasks.Quasar.Static do
 
   @shortdoc "Create a stand-alone front-end only version of Quasar"
   def run(args) do
-    {options, _, _} = OptionParser.parse(args, switches: [public_path: :string])
+    {options, _, _} = OptionParser.parse(args, switches: [public_path: :string, basename: :string])
     path = Keyword.get(options, :public_path)
     path = if path, do: "PUBLIC_PATH=#{path}", else: ""
+    basename = Keyword.get(options, :basename)
+    basename = if basename, do: "BASENAME=#{basename}", else: ""
 
     Mix.Shell.IO.info "Generating Static Assets"
     Mix.Shell.IO.cmd "rm -rf ./_build/static/"
     Mix.Shell.IO.cmd "mkdir -p ./_build/static/"
-    Mix.Shell.IO.cmd "cd assets && TRANSIENT=true #{path} NODE_ENV=production ./node_modules/webpack/bin/webpack.js -p"
+    Mix.Shell.IO.cmd "cd assets && TRANSIENT=true #{path} #{basename} NODE_ENV=production ./node_modules/webpack/bin/webpack.js -p"
     Mix.Shell.IO.cmd "cp -r ./priv/static/* ./_build/static/"
 
     Application.ensure_all_started(:quasar)
