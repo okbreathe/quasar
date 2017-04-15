@@ -6,6 +6,7 @@ const env        = process.env.MIX_ENV || process.env.NODE_ENV || 'dev'
 const TRANSIENT  = !!process.env.TRANSIENT
 const BASENAME   = process.env.BASENAME || ""
 const APP_ROOT   = process.env.APP_ROOT || "/app"
+const HISTORY    = process.env.HISTORY || "browser"
 const prod       = env === 'production' || env === 'prod'
 const publicPath = process.env.PUBLIC_PATH || (prod ? '/' : 'http://localhost:4001/')
 const entry      = [ 'babel-polyfill','./js/index.js' ]
@@ -18,6 +19,7 @@ const plugins = [
       NODE_ENV: JSON.stringify(prod ? 'production' : 'development'),
       BASENAME: JSON.stringify(BASENAME),
       APP_ROOT: JSON.stringify(APP_ROOT),
+      HISTORY: JSON.stringify(HISTORY),
       TRANSIENT: TRANSIENT
     }
   }),

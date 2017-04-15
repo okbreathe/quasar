@@ -3,14 +3,16 @@ import ReactDOM from "react-dom"
 import configureStore from "./store"
 import { createHistory } from 'history'
 import { syncHistoryWithStore } from 'react-router-redux'
-import { useRouterHistory } from 'react-router'
+import { useRouterHistory, hashHistory } from 'react-router'
 import App from './containers'
 
 import '../css/index.scss'
 
-const browserHistory = useRouterHistory(createHistory)({ basename: process.env.BASENAME })
-const store          = configureStore(browserHistory)
-const history        = syncHistoryWithStore(browserHistory, store)
+const historyType    = process.env.HISTORY == "hash"
+  ? hashHistory
+  : useRouterHistory(createHistory)({ basename: process.env.BASENAME })
+const store          = configureStore(historyType)
+const history        = syncHistoryWithStore(historyType, store)
 const target         = document.getElementById('app')
 const node           = <App history={history} store={store} />
 

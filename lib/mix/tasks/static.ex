@@ -11,7 +11,7 @@ defmodule Mix.Tasks.Quasar.Static do
 
   @shortdoc "Create a stand-alone front-end only version of Quasar"
   def run(args) do
-    {options, _, _} = OptionParser.parse(args, switches: [public_path: :string, basename: :string, app_root: :string])
+    {options, _, _} = OptionParser.parse(args, switches: [public_path: :string, basename: :string, app_root: :string, history: :string])
     args = options |> Enum.map(fn({k,_}) -> k end)
     flags = (for k <- args, into: [], do: if v = Keyword.get(options, k), do: "#{k |> Atom.to_string |> upcase}=#{v}")
             |> filter(&is_binary/1) |> join(" ")
