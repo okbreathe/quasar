@@ -197,19 +197,18 @@ const ConnectedApp = connect(
   })
 )(App)
 
-const Root = (props) => {
-  return (
-    <Provider store={props.store}>
-      <Router history={props.history}>
-        <Route path="/app" component={ConnectedApp}>
-          <Route path="/app/tags/(:tag_id)" component={ConnectedApp} >
-            <Route path="pages/(:page_id)" component={ConnectedApp} />
-          </Route>
+const path = process.env.APP_ROOT
+
+const Root = (props) =>
+  <Provider store={props.store}>
+    <Router history={props.history}>
+      <Route path={`${path}`} component={ConnectedApp}>
+        <Route path={`${path}/tags/(:tag_id)`} component={ConnectedApp} >
+          <Route path={`pages/(:page_id)`} component={ConnectedApp} />
         </Route>
-        <Redirect from='*' to='/app' />
-      </Router>
-    </Provider>
-  )
-}
+      </Route>
+      <Redirect from='*' to={`${path}`} />
+    </Router>
+  </Provider>
 
 export default Root

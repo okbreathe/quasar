@@ -5,6 +5,7 @@ const ExtractTextPlugin = require("extract-text-webpack-plugin")
 const env        = process.env.MIX_ENV || process.env.NODE_ENV || 'dev'
 const TRANSIENT  = !!process.env.TRANSIENT
 const BASENAME   = process.env.BASENAME || ""
+const APP_ROOT   = process.env.APP_ROOT || "/app"
 const prod       = env === 'production' || env === 'prod'
 const publicPath = process.env.PUBLIC_PATH || (prod ? '/' : 'http://localhost:4001/')
 const entry      = [ 'babel-polyfill','./js/index.js' ]
@@ -12,19 +13,20 @@ const hot        = 'webpack-hot-middleware/client?path=' + publicPath + '__webpa
 const cssLoaders = [ 'css-loader', 'sass-loader', 'postcss-loader' ]
 
 const plugins = [
+  new webpack.DefinePlugin({
+    'process.env': {
+      NODE_ENV: JSON.stringify(prod ? 'production' : 'development'),
+      BASENAME: JSON.stringify(BASENAME),
+      APP_ROOT: JSON.stringify(APP_ROOT),
+      TRANSIENT: TRANSIENT
+    }
+  }),
   new webpack.NoEmitOnErrorsPlugin()
 ]
 
 if (prod) {
   plugins.push(
     new ExtractTextPlugin("css/index.bundle.css"),
-    new webpack.DefinePlugin({
-      'process.env': {
-        NODE_ENV: JSON.stringify('production'),
-        BASENAME: JSON.stringify(BASENAME),
-        TRANSIENT: TRANSIENT
-      }
-    }),
     new webpack.optimize.UglifyJsPlugin({
       compress: {
         booleans: true,
@@ -48,13 +50,6 @@ if (prod) {
   )
 } else {
   plugins.push(
-    new webpack.DefinePlugin({
-      'process.env': {
-        NODE_ENV: JSON.stringify('development'),
-        BASENAME: JSON.stringify(BASENAME),
-        TRANSIENT: TRANSIENT
-      }
-    }),
     new webpack.HotModuleReplacementPlugin()
   )
 }
