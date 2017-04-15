@@ -8,7 +8,7 @@ import uiActions from '../actions/ui'
 import Settings from './settings'
 import Book from './book'
 import Page from './page'
-import { compareDates, compareStrings } from '../lib/'
+import { pathFor, compareDates, compareStrings } from '../lib/'
 import { filter, toArray, map } from 'redux-api-resources'
 
 class App extends React.Component {
@@ -197,17 +197,15 @@ const ConnectedApp = connect(
   })
 )(App)
 
-const path = process.env.APP_ROOT
-
 const Root = (props) =>
   <Provider store={props.store}>
     <Router history={props.history}>
-      <Route path={`${path}`} component={ConnectedApp}>
-        <Route path={`${path}/tags/(:tag_id)`} component={ConnectedApp} >
+      <Route path={pathFor()} component={ConnectedApp}>
+        <Route path={pathFor("/tags/(:tag_id)")} component={ConnectedApp} >
           <Route path={`pages/(:page_id)`} component={ConnectedApp} />
         </Route>
       </Route>
-      <Redirect from='*' to={`${path}`} />
+      <Redirect from='*' to={pathFor()} />
     </Router>
   </Provider>
 

@@ -1,7 +1,7 @@
 import Dexie from 'dexie'
 import Fuse from 'fuse.js'
 import format from 'date-fns/format'
-import { dataURLToBlob, except } from '../'
+import { dataURLToBlob, except, pathFor } from '../'
 import { replace } from 'react-router-redux'
 
 // NOTE ids are integers in the database but strings in redux
@@ -53,7 +53,7 @@ export async function transientStorage(name, req) {
 
 export function clearTransientStorage(){
   localStorage.removeItem("seeded")
-  return db.delete().then(() => window.location.pathname = [process.env.BASENAME, "/app"].join(""))
+  return db.delete().then(() => window.location.pathname = [process.env.BASENAME, process.env.APP_ROOT].join(""))
 }
 
 const Upload = {
@@ -321,7 +321,7 @@ const Wiki = {
         await db.pages_tags.add({ tag_id, page_id })
         localStorage.setItem("seeded", true)
         // Navigate to generated page
-        dispatch(replace(`/app/tags/${tag_id}/pages/${page_id}`))
+        dispatch(replace(pathFor(`/tags/${tag_id}/pages/${page_id}`)))
         res(true)
       })
     }

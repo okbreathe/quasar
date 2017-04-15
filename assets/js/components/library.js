@@ -2,6 +2,8 @@ import React, { PropTypes } from "react"
 import { Link } from 'react-router'
 import { Button } from "@blueprintjs/core"
 
+import { pathFor } from '../lib/'
+
 export class Library extends React.Component {
   render(){
     const { tags = [], onSettings } = this.props
@@ -14,25 +16,25 @@ export class Library extends React.Component {
         <div id='library-books'>
           <ul>
             <li>
-              <Link to={"/app/tags/recent"} activeClassName="active">
+              <Link to={pathFor("/tags/recent")} activeClassName="active">
                 <span className="pt-icon pt-icon-time"/>
                 Recent
               </Link>
             </li>
             <li>
-              <Link to={"/app/tags/favorites"} activeClassName="active">
+              <Link to={pathFor("/tags/favorites")} activeClassName="active">
                 <span className="pt-icon pt-icon-star-empty"/>
                 Favorites
               </Link>
             </li>
             <li>
-              <Link to={"/app/tags/trash"} activeClassName="active">
+              <Link to={pathFor("/tags/trash")} activeClassName="active">
                 <span className="pt-icon pt-icon-trash"/>
                 Trash
               </Link>
             </li>
             <li>
-              <Link to={"/app/tags/all"} activeClassName="active">
+              <Link to={pathFor("/tags/all")} activeClassName="active">
                 <span className="pt-icon pt-icon-box"/>
                 All Notes
               </Link>
@@ -44,7 +46,7 @@ export class Library extends React.Component {
             tags.map(t => {
               return (
                 <li key={t.id}>
-                  <Link to={`/app/tags/${t.id}`} activeClassName="active">
+                  <Link to={pathFor(`/tags/${t.id}`)} activeClassName="active">
                     <span className="pt-icon pt-icon-book"/>
                     {t.attributes.name}
                   </Link>

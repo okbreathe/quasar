@@ -7,6 +7,7 @@ import { Button } from "@blueprintjs/core"
 import uiActions from '../actions/ui'
 import resourceActions from '../actions/resources'
 import { Page, Sort, Search } from '../components/book'
+import { pathFor } from '../lib'
 
 let timeout = null, delay = 300
 
@@ -23,7 +24,7 @@ class Book extends React.Component {
       .then(({ payload }) => {
         // TODO This varies due to how transientStorage and the server send responses
         const page = payload.data instanceof Array ? payload.data[0] : payload.data
-        dispatch(push(`/app/tags/${(typeof(tag) == "object" ? tag.id : tag) || 'all'}/pages/${page.id}`))
+        dispatch(push(pathFor(`/tags/${(typeof(tag) == "object" ? tag.id : tag) || 'all'}/pages/${page.id}`)))
       })
   }
 

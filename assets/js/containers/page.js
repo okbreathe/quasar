@@ -5,7 +5,7 @@ import resourceActions from '../actions/resources'
 import { replace } from 'react-router-redux'
 import { Queue } from '../lib'
 import equal from 'deep-equal'
-import { only } from '../lib'
+import { only, pathFor } from '../lib'
 import { Controls, Editable, NoPage } from '../components/page'
 
 let scrolling, scrollingEditor = false, scrollingPreview = false, interval
@@ -186,13 +186,13 @@ class Page extends React.Component {
   onToggleTrash = () => {
     const { actions, dispatch, page } = this.props
     actions.update({ page: { is_trashed: !page.attributes.is_trashed } , id: page.id })
-      .then(_ => dispatch(replace('/app/tags/recent')))
+      .then(_ => dispatch(replace(pathFor('/tags/recent'))))
   }
 
   onDestroy = () => {
     const { actions, dispatch, page } = this.props
     actions.destroy({ id: page.id })
-      .then(_ => dispatch(replace('/app/tags/trash')))
+      .then(_ => dispatch(replace(pathFor('/tags/trash'))))
   }
 
   onFavorite = () => {

@@ -6,18 +6,19 @@ defmodule Mix.Tasks.Quasar.Static do
   alias Quasar.Accounts.User
   alias Quasar.Web.{Endpoint, LayoutView, SiteView}
 
+  import String
+  import Enum
+
   @shortdoc "Create a stand-alone front-end only version of Quasar"
   def run(args) do
-    {options, _, _} = OptionParser.parse(args, switches: [public_path: :string, basename: :string])
-    path = Keyword.get(options, :public_path)
-    path = if path, do: "PUBLIC_PATH=#{path}", else: ""
-    basename = Keyword.get(options, :basename)
-    basename = if basename, do: "BASENAME=#{basename}", else: ""
+    {options, _, _} = OptionParser.parse(args, switches: [public_path: :string, basename: :string, app_root: :string])
+    args = options |> Enum.map(fn({k,v}) -> k end)
+    flags = (for key <- args, into: [], do: (if val = Keyword.get(options, key), do: "#{key |> Atom.to_string |> upcase}=#{val}", else: nil)) |> filter(&is_binary/1) |> join(" ")
 
     Mix.Shell.IO.info "Generating Static Assets"
     Mix.Shell.IO.cmd "rm -rf ./_build/static/"
     Mix.Shell.IO.cmd "mkdir -p ./_build/static/"
-    Mix.Shell.IO.cmd "cd assets && TRANSIENT=true #{path} #{basename} NODE_ENV=production ./node_modules/webpack/bin/webpack.js -p"
+    Mix.Shell.IO.cmd "cd assets && TRANSIENT=true #{flags} NODE_ENV=production ./node_modules/webpack/bin/webpack.js -p"
     Mix.Shell.IO.cmd "cp -r ./priv/static/* ./_build/static/"
 
     Application.ensure_all_started(:quasar)
