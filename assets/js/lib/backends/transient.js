@@ -51,9 +51,14 @@ export async function transientStorage(name, req) {
   }
 }
 
-export function clearTransientStorage(){
+export async function clearTransientStorage(){
   localStorage.removeItem("seeded")
-  return db.delete().then(() => window.location.pathname = [process.env.BASENAME, process.env.APP_ROOT].join(""))
+
+  await db.delete()
+
+  process.env.HISTORY == "hash"
+    ? window.location.href = window.location.href.split("#")[0]
+    : window.location.pathname = [process.env.BASENAME, process.env.APP_ROOT].join("")
 }
 
 const Upload = {
